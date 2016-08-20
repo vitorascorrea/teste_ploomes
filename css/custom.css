@@ -5,6 +5,11 @@ body{
   background-color: #e3f2fd;
 }
 
+ul{
+    list-style-type: none;
+    padding: 0px;
+}
+
 /* Bootstrap enhancement */
 
 .navbar-header{
