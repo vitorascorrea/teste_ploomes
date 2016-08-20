@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="NoTrello">
   <head>
     <meta charset="utf-8">
     <title>NoTrello</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="custom.css" rel="stylesheet">
   </head>
-  <body>
-
+  <body ng-controller="MainCtrl">
     <nav class="navbar navbar-fixed-top navbar-light" style="background-color: #fff;">
       <div class="container">
         <div class="navbar-header">
@@ -23,48 +22,38 @@
         </div> -->
         <div class="col-md-12">
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3" ng-repeat="list in lists">
+              <div ng-init="setCurrentList(list)"></div>
               <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                  <div class="list-title">Lista 1</div>
-                  <div class="glyphicon glyphicon-circle-arrow-down list-card-buttons"></div>
-                  <div class="glyphicon glyphicon-remove-sign list-card-buttons"></div>
-                  <div class="glyphicon glyphicon-plus-sign list-card-buttons"></div>
+                  <div class="list-title">{{list.title}}</div>
+                  <div class="glyphicon glyphicon-circle-arrow-up list-buttons"></div>
+                  <div class="glyphicon glyphicon-remove-sign list-buttons" ng-click="removeList(list)"></div>
+                  <div class="glyphicon glyphicon-plus-sign list-buttons" ng-click="insertCard(list.id)"></div>
                 </div>
                 <div class="panel-body">
-                  <div class="card">
+                  <div class="card" ng-repeat="card in getCurrentListCards(list.id)" style="background-color: {{card.color}}">
                     <div class="card-block">
-                      <div class="glyphicon glyphicon-remove-sign card-button"></div>
+                      <div class="glyphicon glyphicon-remove-sign card-button" ng-click="removeCard(card)"></div>
                       <div class="glyphicon glyphicon-pencil card-button"></div>
-                        <h4 class="card-title">Card 1</h4>
+                        <h4 class="card-title">{{card.title}}</h4>
                     </div>
-                    <img src="img.svg" alt="Card image" class="card-main-image">
+                    <img src="{{card.img}}" class="card-main-image">
                     <div class="card-block">
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <a href="#" class="card-link">Card link</a>
-                      <a href="#" class="card-link">Another link</a>
-                    </div>
-                  </div>
-                  <div class="card">
-                    <div class="card-block">
-                      <div class="glyphicon glyphicon-remove-sign card-button"></div>
-                      <div class="glyphicon glyphicon-pencil card-button"></div>
-                        <h4 class="card-title">Card 1</h4>
-                    </div>
-                    <div class="card-block">
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <a href="#" class="card-link">Card link</a>
-                      <a href="#" class="card-link">Another link</a>
+                      <p class="card-text">{{card.desc}}</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
       <div class="hovering-add-list">
-        <div class="glyphicon glyphicon-plus-sign"></div>
+        <div class="glyphicon glyphicon-plus-sign" ng-click="insertList()"></div>
       </div>
     </div> <!-- /container -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js" type="text/javascript"></script>
+    <script src="app/notrello.js" type="text/javascript"></script>
   </body>
 </html>

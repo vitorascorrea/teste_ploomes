@@ -51,6 +51,7 @@ body{
   bottom: 0;
   font-size: 70px;
   color: #3399ff;
+  cursor: pointer;
 }
 
 .list-title{
@@ -59,19 +60,21 @@ body{
   float: left;
 }
 
-.list-card-buttons{
+.list-buttons{
   float: right;
   font-size: 30px;
   margin: 2px;
+  cursor: pointer;
 }
 
-.list-card-buttons:hover{
+.list-buttons:hover{
   color: black;
 }
 
 .card-button{
   float: right;
   margin-left: 5px;
+  cursor: pointer;
 }
 
 .card-main-image{
