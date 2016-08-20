@@ -1,0 +1,80 @@
+/* Group Selectors */
+
+body{
+  padding-top: 65px;
+  background-color: #e3f2fd;
+}
+
+/* Bootstrap enhancement */
+
+.navbar-header{
+    float: left;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+}
+.navbar-brand{
+  float:none;
+}
+
+.panel-heading {
+  overflow: hidden;
+}
+
+.panel-body{
+  background-color: #99ccff;
+}
+
+.card{
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 5px;
+  margin: 0 0 10px;
+  text-align: center;
+}
+
+.card-title{
+  clear: both;
+}
+
+/* Multi purpose */
+
+.text-center{
+  text-align: center;
+}
+
+/* Custom classes */
+
+.hovering-add-list{
+  position: fixed;
+  right: 10px;
+  bottom: 0;
+  font-size: 70px;
+  color: #3399ff;
+}
+
+.list-title{
+  font-weight: bold;
+  font-size: 24px;
+  float: left;
+}
+
+.list-card-buttons{
+  float: right;
+  font-size: 30px;
+  margin: 2px;
+}
+
+.list-card-buttons:hover{
+  color: black;
+}
+
+.card-button{
+  float: right;
+  margin-left: 5px;
+}
+
+.card-main-image{
+  width: 200px;
+  height: 100px;
+}
