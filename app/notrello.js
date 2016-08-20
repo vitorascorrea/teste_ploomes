@@ -24,11 +24,11 @@ angular.module("NoTrello", [])
 
   function insertList(){
     if($scope.lists.length > 0){
-      var id = $scope.lists[$scope.lists.length-1].id + 1;
+      var id = $scope.lists[0].id + 1;
     }else{
       var id = 0;
     }
-    var list = {"id": id, "title": "Título"}
+    var list = {"id": id, "title": id}
     $scope.lists.unshift(list);
   }
 
@@ -45,11 +45,11 @@ angular.module("NoTrello", [])
 
   function insertCard(id_list){
     if($scope.cards.length > 0){
-      var id = $scope.cards[$scope.cards.length-1].id + 1;
+      var id = $scope.cards[0].id + 1;
     }else{
       var id = 0;
     }
-    var card = {"id": id, "title": "Título", "color": "#fff", "img":"", "desc":"Teste", "id_list":id_list}
+    var card = {"id": id, "title": id, "color": "#fff", "img":"", "desc":"Teste", "id_list":id_list}
     $scope.cards.unshift(card);
   }
 
