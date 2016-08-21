@@ -3,6 +3,8 @@
 body{
   padding-top: 65px;
   background-color: #e3f2fd;
+  background-image: url('../imgs/bg.jpg');
+  background-size: cover;
 }
 
 ul{
@@ -20,6 +22,7 @@ ul{
 }
 .navbar-brand{
   float:none;
+  color: #fff;
 }
 
 .panel-heading {
@@ -28,6 +31,11 @@ ul{
 
 .panel-body{
   background-color: #99ccff;
+  transition: all linear 0.5s;
+}
+
+.ng-hide{
+  height: 0;
 }
 
 .card{
@@ -49,12 +57,16 @@ ul{
 
 /* Custom classes */
 
+.opaque{
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 .hovering-add-list{
   position: fixed;
   right: 10px;
   bottom: 0;
   font-size: 70px;
-  color: #3399ff;
+  color: #ffcf00;
   cursor: pointer;
 }
 
@@ -84,4 +96,23 @@ ul{
   margin-left: 5px;
   margin-bottom: 10px;
   cursor: pointer;
+}
+
+.list-modal{
+  width:350px;
+  height: 210px;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.card-modal{
+  width:350px;
+  height: 220px;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.no-list{
+  color: white;
+  margin-top: 15%;
 }
