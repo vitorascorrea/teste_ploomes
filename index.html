@@ -19,37 +19,26 @@
 
     <div class="container">
       <div class="row">
-        <!-- <div class="col-md-1">
-          sidebar comes here
-        </div> -->
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-3" ng-repeat="list in lists">
               <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                  <div class="list-title">{{list.title}}</div>
+                  <div class="list-title">{{list.Lista}}</div>
                   <div class="glyphicon glyphicon-circle-arrow-up list-buttons" ng-show="list.slide" ng-click="slideToggle(list)"></div>
                   <div class="glyphicon glyphicon-circle-arrow-down list-buttons" ng-show="!list.slide" ng-click="slideToggle(list)"></div>
-                  <div class="glyphicon glyphicon-remove-sign list-buttons" ng-click="toggleListModal('remove', list.id)"></div>
-                  <div class="glyphicon glyphicon-plus-sign list-buttons" ng-click="toggleCardModal('insert', list.id, -1)"></div>
+                  <div class="glyphicon glyphicon-remove-sign list-buttons" ng-click="toggleListModal('remove', list.ID_Lista)"></div>
+                  <div class="glyphicon glyphicon-plus-sign list-buttons" ng-click="toggleCardModal('insert', list.ID_Lista, -1)"></div>
                 </div>
                 <div class="panel-body" ng-show="list.slide">
-                  <ul dnd-list="list.cards">
-                    <li ng-repeat="card in list.cards"
-                        dnd-draggable="card"
-                        dnd-moved="list.cards.splice($index, 1)"
-                        dnd-effect-allowed="move"
-                        dnd-selected="card"
-                    >
-                      <div class="card" style="background-color: {{card.color}}">
+                  <ul dnd-list="list.Cards">
+                    <li ng-repeat="card in list.Cards" dnd-draggable="card" dnd-moved="list.Cards.splice($index, 1)" dnd-effect-allowed="move" dnd-selected="card" style="background-color: {{card.Cor_Card}}">
+                      <div class="card">
                         <div class="card-block">
-                          <div class="glyphicon glyphicon-remove-sign card-button" ng-click="toggleCardModal('remove', list.id, card.id)"></div>
-                          <div class="glyphicon glyphicon-pencil card-button" ng-click="toggleCardModal('edit', list.id, card.id)"></div>
-                            <h4 class="card-title">{{card.title}}</h4>
-                        </div>
-                        <img src="{{card.img}}" class="card-main-image">
-                        <div class="card-block">
-                          <p class="card-text">{{card.desc}}</p>
+                          <div class="glyphicon glyphicon-remove-sign card-button" ng-click="toggleCardModal('remove', list.ID_Lista, card.ID_Card)"></div>
+                          <div class="glyphicon glyphicon-pencil card-button" ng-click="toggleCardModal('edit', list.ID_Lista, card.ID_Card)"></div>
+                            <img src="{{card.Img_Card}}" class="card-main-image" ng-if="card.img != ''">
+                            <h4 class="card-title">{{card.Card}}</h4>
                         </div>
                       </div>
                     </li>
@@ -68,7 +57,7 @@
       <div ng-show="insertListModal">
         <form role="form" ng-submit="createList(list)">
           <label for="listTitle">Título da Lista</label>
-          <input type="text" id="listTitle" placeholder="Título" ng-model="list.title">
+          <input type="text" id="listTitle" placeholder="Título" ng-model="list.Lista">
           <button type="submit">Criar</button>
         </form>
       </div>
@@ -82,26 +71,22 @@
       <div ng-show="insertCardModal">
         <form role="form" ng-submit="createCard(card)">
           <label for="cardTitle">Título do Card</label>
-          <input type="text" id="cardTitle" placeholder="Título" ng-model="card.title" autofocus>
+          <input type="text" id="cardTitle" placeholder="Título" ng-model="card.Card" autofocus>
           <label for="cardColor">Cor do Card</label>
-          <input type="color" id="cardColor" placeholder="Cor" ng-model="card.color">
+          <input type="color" id="cardColor" placeholder="Cor" ng-model="card.Cor_Card">
           <label for="cardImg">Imagem do Card</label>
-          <input type="text" id="cardImg" placeholder="Imagem" ng-model="card.img">
-          <label for="cardDesc">Descrição do Card</label>
-          <input type="textarea" id="cardDesc" placeholder="Descrição" ng-model="card.desc">
+          <input type="text" id="cardImg" placeholder="Imagem" ng-model="card.Img_Card">
           <button type="submit">Criar</button>
         </form>
       </div>
       <div ng-show="editCardModal">
         <form role="form" ng-submit="editCard(cardCopy)">
           <label for="cardTitle">Título do Card</label>
-          <input type="text" id="cardTitle" ng-model="cardCopy.title">
+          <input type="text" id="cardTitle" ng-model="cardCopy.Card">
           <label for="cardColor">Cor do Card</label>
-          <input type="color" id="cardColor" placeholder="Cor" ng-model="cardCopy.color">
+          <input type="color" id="cardColor" placeholder="Cor" ng-model="cardCopy.Cor_Card">
           <label for="cardImg">Imagem do Card</label>
-          <input type="text" id="cardImg" placeholder="Imagem" ng-model="cardCopy.img">
-          <label for="cardDesc">Descrição do Card</label>
-          <input type="textarea" id="cardDesc" placeholder="Descrição" ng-model="cardCopy.desc">
+          <input type="text" id="cardImg" placeholder="Imagem" ng-model="cardCopy.Img_Card">
           <button type="submit">Editar</button>
         </form>
       </div>

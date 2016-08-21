@@ -32,7 +32,6 @@ ul{
 
 .card{
   border-radius: 10px;
-  background-color: #fff;
   padding: 5px;
   margin: 0 0 10px;
   text-align: center;
@@ -85,4 +84,5 @@ ul{
 .card-main-image{
   width: 200px;
   height: 100px;
+  margin-top: 5px;
 }

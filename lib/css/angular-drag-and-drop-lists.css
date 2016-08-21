@@ -2,10 +2,12 @@ ul[dnd-list],
 ul[dnd-list] > li {
 	position: relative;
   padding: 0px;
+  list-style-type: none;
 }
 ul[dnd-list] {
     min-height: 42px;
     padding-left: 0px;
+		
 }
 ul[dnd-list] .dndDraggingSource {
     display: none;
