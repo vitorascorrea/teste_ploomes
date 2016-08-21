@@ -9,6 +9,7 @@
     <link href="css/custom.css" rel="stylesheet">
   </head>
   <body ng-controller="MainCtrl">
+
     <nav class="navbar navbar-fixed-top navbar-light opaque">
       <div class="container">
         <div class="navbar-header">
@@ -18,28 +19,30 @@
     </nav>
 
     <div class="container" ng-init="loadData()">
+
       <h2 ng-show="lists.length == 0" class="text-center no-list">Nenhuma lista criada.<br> Clique no botão <span class="glyphicon glyphicon-plus-sign" style="color: #ffcf00;"></span> abaixo para adicionar uma nova lista!</h2>
+
       <div class="row">
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-3" ng-repeat="list in lists">
               <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                  <div class="list-title">{{list.Lista}} {{list.ID_Lista}}</div>
+                  <div class="list-title" ng-click="toggleListModal('edit', list.ID_Lista)">{{list.Lista}}</div>
                   <div class="glyphicon glyphicon-circle-arrow-up list-buttons" ng-show="list.slide" ng-click="slideToggle(list)"></div>
                   <div class="glyphicon glyphicon-circle-arrow-down list-buttons" ng-show="!list.slide" ng-click="slideToggle(list)"></div>
                   <div class="glyphicon glyphicon-remove-sign list-buttons" ng-click="toggleListModal('remove', list.ID_Lista)"></div>
                   <div class="glyphicon glyphicon-plus-sign list-buttons" ng-show="list.slide" ng-click="toggleCardModal('insert', list.ID_Lista, -1)"></div>
                 </div>
                 <div class="panel-body" ng-show="list.slide">
-                  <div ng-show="list.Cards.length == 0" class="text-center">Lista vazia. Clique no botão <span class="glyphicon glyphicon-plus-sign"></span> acima para adicionar um novo cartão ou arreste um cartão existente!</div>
+                  <div ng-show="list.Cards.length == 0" class="text-center">Lista vazia. Clique no botão <span class="glyphicon glyphicon-plus-sign"></span> acima para adicionar um novo cartão ou arraste um cartão existente!</div>
                   <ul dnd-list="list.Cards">
                     <li ng-repeat="card in list.Cards" dnd-draggable="card" dnd-moved="cardMoving(card, list)" dnd-effect-allowed="move" dnd-selected="card" style="background-color: {{card.Cor_Card}}">
                       <div class="card">
                         <div class="card-block">
                           <div class="glyphicon glyphicon-remove-sign card-button" ng-click="toggleCardModal('remove', list.ID_Lista, card.ID_Card)"></div>
                           <div class="glyphicon glyphicon-pencil card-button" ng-click="toggleCardModal('edit', list.ID_Lista, card.ID_Card)"></div>
-                            <h4 class="card-title">{{card.Card}} {{card.ID_Card}}</h4>
+                            <h4 class="card-title">{{card.Card}}</h4>
                         </div>
                       </div>
                     </li>
@@ -64,9 +67,18 @@
           <div class="text-center"><button type="submit" class="btn btn-primary">Criar</button></div>
         </form>
       </div>
+      <div ng-show="editListModal" class="list-modal">
+        <form role="form" ng-submit="editList(copyList)">
+          <div class="form-group">
+            <label for="cardTitle">Título da Lista</label>
+            <input type="text" id="copyListTitle" placeholder="Título" ng-model="copyList.Lista" class="form-control" required>
+          </div>
+          <div class="text-center"><button type="submit" class="btn btn-primary">Editar</button></div>
+        </form>
+      </div>
       <div ng-show="removeListModal" class="list-modal">
         <div class="form-group">
-          <div class="text-center"><h3>Confirma exclusão?</h3></div>
+          <div class="text-center"><h3>Confirma exclusão da lista {{actualList.Lista}}?</h3></div>
           <div class="text-center"><button type="button" ng-click="removeList(actualList)" class="btn btn-danger">Excluir</button></div>
         </div>
       </div>
@@ -101,7 +113,7 @@
       </div>
       <div ng-show="removeCardModal" class="card-modal" style="background-color: {{actualCard.Cor_Card}};">
         <div class="form-group">
-          <div class="text-center"><h3>Confirma exclusão?</h3></div>
+          <div class="text-center"><h3>Confirma exclusão do card {{actualCard.Card}}?</h3></div>
           <div class="text-center"><button type="button" ng-click="removeCard(actualCard)" class="btn btn-danger">Excluir</button></div>
         </div>
       </div>

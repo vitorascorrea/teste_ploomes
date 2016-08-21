@@ -1,5 +1,5 @@
 app.controller('MainCtrl', function($scope, $http){
-
+  //Lists array
   $scope.lists = [];
 
   function loadData(){
@@ -7,10 +7,10 @@ app.controller('MainCtrl', function($scope, $http){
     $http.get("http://www.ploomes.com/fun/listas").then(function(response) {
         for(var x = 0; x < response.data.length; x++){
           list = {"ID_Lista": response.data[x].ID_Lista, "Lista": response.data[x].Lista, "Ordem_Lista": response.data[x].Ordem_Lista, "Cards": [], "slide": true};
-          if($scope.lists.indexOf(list) === -1) $scope.lists.push(list);
+          $scope.lists.push(list);
           for(var c = 0; c < response.data[x].Cards.length; c++){
             card = {"ID_Card": response.data[x].Cards[c].ID_Card, "Card": response.data[x].Cards[c].Card, "Cor_Card": response.data[x].Cards[c].Cor_Card, "Ordem_Card": response.data[x].Cards[c].Ordem_Card, "Lista": response.data[x].ID_Lista};
-            if($scope.lists[x].Cards.indexOf(card) === -1) $scope.lists[x].Cards.push(card);
+            $scope.lists[x].Cards.push(card);
           }
           $scope.lists[x].Cards.sort(function(a, b) {
                                     return b.Ordem_Card < a.Ordem_Card ?  1
@@ -21,15 +21,13 @@ app.controller('MainCtrl', function($scope, $http){
     });
 
   }
-
+  //Api Interaction
   function postList(list){
     $http.post('http://www.ploomes.com/fun/listas', { "Lista": list.Lista, "Ordem_Lista": list.Ordem_Lista });
   }
 
-  function getLastList(){
-    return $http.get('http://www.ploomes.com/fun/listas').then(function(response){
-      return response.data[response.data.length - 1];
-    });
+  function updateList(list){
+    $http.put('http://www.ploomes.com/fun/listas/'+list.ID_Lista, { "Lista": list.Lista, "Ordem_Lista": list.Ordem_Lista });
   }
 
   function deleteList(list){
@@ -40,12 +38,6 @@ app.controller('MainCtrl', function($scope, $http){
     $http.post('http://www.ploomes.com/fun/cards', {"Card": card.Card, "Cor_Card": card.Cor_Card, "Ordem_Card": card.Ordem_Card, "Lista": {"ID_Lista": card.Lista}});
   }
 
-  function getLastCard(){
-    return $http.get('http://www.ploomes.com/fun/cards').then(function(response){
-      return response.data[response.data.length - 1];
-    });
-  }
-
   function updateCard(card){
     $http.put('http://www.ploomes.com/fun/cards/'+card.ID_Card, {"Card": card.Card, "Cor_Card": card.Cor_Card, "Ordem_Card": card.Ordem_Card, "Lista": {"ID_Lista": card.Lista}});
   }
@@ -54,10 +46,13 @@ app.controller('MainCtrl', function($scope, $http){
     $http.delete('http://www.ploomes.com/fun/cards/'+card.ID_Card);
   }
 
+  //Modal control
+
   $scope.listModal = false;
   $scope.cardModal = false;
   $scope.insertListModal = false;
   $scope.removeListModal = false;
+  $scope.editListModal = false;
   $scope.insertCardModal = false;
   $scope.removeCardModal = false;
   $scope.editCardModal = false;
@@ -72,12 +67,20 @@ app.controller('MainCtrl', function($scope, $http){
     if(mode === "insert"){
       $scope.insertListModal = true;
       $scope.removeListModal = false;
+      $scope.editListModal = false;
     } else if(mode === "remove"){
       $scope.removeListModal = true;
       $scope.insertListModal = false;
+      $scope.editListModal = false;
+    } else if(mode === "edit"){
+      $scope.removeListModal = false;
+      $scope.insertListModal = false;
+      $scope.editListModal = true;
+      $scope.listCopy = angular.copy($scope.actualList);
     } else{
       $scope.insertListModal = false;
       $scope.removeListModal = false;
+      $scope.editListModal = false;
     }
   }
 
@@ -114,6 +117,8 @@ app.controller('MainCtrl', function($scope, $http){
     list.slide = !list.slide;
   }
 
+  //CRUD
+
   function createList(list){
     if($scope.lists.length > 0){
       var ordem = $scope.lists[$scope.lists.length - 1].Ordem_Lista + 1;
@@ -123,6 +128,7 @@ app.controller('MainCtrl', function($scope, $http){
     var list = {"Lista": list.Lista, "Ordem_Lista": ordem, "Cards": [], "slide": true}
     postList(list);
     $scope.lists.push(list);
+    //Workaround to wait server time
     $http.get('http://www.ploomes.com/fun/listas/').then(function(response){});
     $http.get('http://www.ploomes.com/fun/listas/').then(function(response){});
     $http.get('http://www.ploomes.com/fun/listas/').then(function(response){
@@ -130,6 +136,20 @@ app.controller('MainCtrl', function($scope, $http){
     });
     $scope.insertListModal = false;
     toggleListModal("none", null);
+  }
+
+  function editList(list){
+    list.slide = true;
+    list.ID_Lista = $scope.actualList.ID_Lista;
+    list.Cards = $scope.actualList.Cards;
+    for(var i = 0; i < $scope.lists.length; i++){
+      if($scope.lists[i].ID_Lista === list.ID_Lista) {
+        $scope.lists[i]= list;
+        break;
+      }
+    }
+    updateList(list);
+    toggleListModal("none", null, null);
   }
 
   function removeList(list){
@@ -150,6 +170,7 @@ app.controller('MainCtrl', function($scope, $http){
     var card = {"Card": card.Card, "Cor_Card": card.Cor_Card, "Ordem_Card": ordem, "Lista":$scope.actualList.ID_Lista}
     postCard(card);
     $scope.actualList.Cards.push(card);
+    //Workaround to wait server time
     $http.get('http://www.ploomes.com/fun/cards/').then(function(response){});
     $http.get('http://www.ploomes.com/fun/cards/').then(function(response){});
     $http.get('http://www.ploomes.com/fun/cards/').then(function(response){
@@ -211,6 +232,7 @@ app.controller('MainCtrl', function($scope, $http){
   $scope.toggleCardModal = toggleCardModal;
   $scope.createList = createList;
   $scope.removeList = removeList;
+  $scope.editList = editList;
   $scope.createCard = createCard;
   $scope.removeCard = removeCard;
   $scope.editCard = editCard;
