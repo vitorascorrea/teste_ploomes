@@ -17,7 +17,7 @@
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container" ng-init="loadData()">
       <div class="row">
         <div class="col-md-12">
           <div class="row">
@@ -28,16 +28,15 @@
                   <div class="glyphicon glyphicon-circle-arrow-up list-buttons" ng-show="list.slide" ng-click="slideToggle(list)"></div>
                   <div class="glyphicon glyphicon-circle-arrow-down list-buttons" ng-show="!list.slide" ng-click="slideToggle(list)"></div>
                   <div class="glyphicon glyphicon-remove-sign list-buttons" ng-click="toggleListModal('remove', list.ID_Lista)"></div>
-                  <div class="glyphicon glyphicon-plus-sign list-buttons" ng-click="toggleCardModal('insert', list.ID_Lista, -1)"></div>
+                  <div class="glyphicon glyphicon-plus-sign list-buttons" ng-show="list.slide" ng-click="toggleCardModal('insert', list.ID_Lista, -1)"></div>
                 </div>
                 <div class="panel-body" ng-show="list.slide">
                   <ul dnd-list="list.Cards">
-                    <li ng-repeat="card in list.Cards" dnd-draggable="card" dnd-moved="list.Cards.splice($index, 1)" dnd-effect-allowed="move" dnd-selected="card" style="background-color: {{card.Cor_Card}}">
+                    <li ng-repeat="card in list.Cards" dnd-draggable="card" dnd-moved="cardMoving(card, list)" dnd-effect-allowed="move" dnd-selected="card" style="background-color: {{card.Cor_Card}}">
                       <div class="card">
                         <div class="card-block">
                           <div class="glyphicon glyphicon-remove-sign card-button" ng-click="toggleCardModal('remove', list.ID_Lista, card.ID_Card)"></div>
                           <div class="glyphicon glyphicon-pencil card-button" ng-click="toggleCardModal('edit', list.ID_Lista, card.ID_Card)"></div>
-                            <img src="{{card.Img_Card}}" class="card-main-image" ng-if="card.img != ''">
                             <h4 class="card-title">{{card.Card}}</h4>
                         </div>
                       </div>
@@ -74,8 +73,6 @@
           <input type="text" id="cardTitle" placeholder="Título" ng-model="card.Card" autofocus>
           <label for="cardColor">Cor do Card</label>
           <input type="color" id="cardColor" placeholder="Cor" ng-model="card.Cor_Card">
-          <label for="cardImg">Imagem do Card</label>
-          <input type="text" id="cardImg" placeholder="Imagem" ng-model="card.Img_Card">
           <button type="submit">Criar</button>
         </form>
       </div>
@@ -85,8 +82,6 @@
           <input type="text" id="cardTitle" ng-model="cardCopy.Card">
           <label for="cardColor">Cor do Card</label>
           <input type="color" id="cardColor" placeholder="Cor" ng-model="cardCopy.Cor_Card">
-          <label for="cardImg">Imagem do Card</label>
-          <input type="text" id="cardImg" placeholder="Imagem" ng-model="cardCopy.Img_Card">
           <button type="submit">Editar</button>
         </form>
       </div>
