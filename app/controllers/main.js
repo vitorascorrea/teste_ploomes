@@ -7,15 +7,15 @@ app.controller('MainCtrl', function($scope, $http){
     $http.get("http://www.ploomes.com/fun/listas").then(function(response) {
         for(var x = 0; x < response.data.length; x++){
           list = {"ID_Lista": response.data[x].ID_Lista, "Lista": response.data[x].Lista, "Ordem_Lista": response.data[x].Ordem_Lista, "Cards": [], "slide": true};
-          $scope.lists.push(list);
+          if($scope.lists.indexOf(list) === -1) $scope.lists.push(list);
           for(var c = 0; c < response.data[x].Cards.length; c++){
             card = {"ID_Card": response.data[x].Cards[c].ID_Card, "Card": response.data[x].Cards[c].Card, "Cor_Card": response.data[x].Cards[c].Cor_Card, "Ordem_Card": response.data[x].Cards[c].Ordem_Card, "Lista": response.data[x].ID_Lista};
-            $scope.lists[x].Cards.push(card);
+            if($scope.lists[x].Cards.indexOf(card) === -1) $scope.lists[x].Cards.push(card);
           }
           $scope.lists[x].Cards.sort(function(a, b) {
-                                    return b.Ordem_Card < a.Ordem_Card ?  1 // if b should come earlier, push a to end
-                                         : b.Ordem_Card > a.Ordem_Card ? -1 // if b should come later, push a to begin
-                                         : 0;                   // a and b are equal
+                                    return b.Ordem_Card < a.Ordem_Card ?  1
+                                         : b.Ordem_Card > a.Ordem_Card ? -1
+                                         : 0;
                                 });
         }
     });
@@ -26,12 +26,24 @@ app.controller('MainCtrl', function($scope, $http){
     $http.post('http://www.ploomes.com/fun/listas', { "Lista": list.Lista, "Ordem_Lista": list.Ordem_Lista });
   }
 
+  function getLastList(){
+    return $http.get('http://www.ploomes.com/fun/listas').then(function(response){
+      return response.data[response.data.length - 1];
+    });
+  }
+
   function deleteList(list){
     $http.delete('http://www.ploomes.com/fun/listas/'+list.ID_Lista);
   }
 
   function postCard(card){
     $http.post('http://www.ploomes.com/fun/cards', {"Card": card.Card, "Cor_Card": card.Cor_Card, "Ordem_Card": card.Ordem_Card, "Lista": {"ID_Lista": card.Lista}});
+  }
+
+  function getLastCard(){
+    return $http.get('http://www.ploomes.com/fun/cards').then(function(response){
+      return response.data[response.data.length - 1];
+    });
   }
 
   function updateCard(card){
@@ -104,13 +116,18 @@ app.controller('MainCtrl', function($scope, $http){
 
   function createList(list){
     if($scope.lists.length > 0){
-      var ordem = $scope.lists[0].Ordem_Lista + 1;
+      var ordem = $scope.lists[$scope.lists.length - 1].Ordem_Lista + 1;
     }else{
       var ordem = 0;
     }
     var list = {"Lista": list.Lista, "Ordem_Lista": ordem, "Cards": [], "slide": true}
-    $scope.lists.push(list);
     postList(list);
+    $scope.lists.push(list);
+    $http.get('http://www.ploomes.com/fun/listas/').then(function(response){});
+    $http.get('http://www.ploomes.com/fun/listas/').then(function(response){});
+    $http.get('http://www.ploomes.com/fun/listas/').then(function(response){
+      $scope.lists[$scope.lists.length - 1].ID_Lista = response.data[response.data.length - 1].ID_Lista;
+    });
     $scope.insertListModal = false;
     toggleListModal("none", null);
   }
@@ -131,8 +148,13 @@ app.controller('MainCtrl', function($scope, $http){
       var ordem = 0;
     }
     var card = {"Card": card.Card, "Cor_Card": card.Cor_Card, "Ordem_Card": ordem, "Lista":$scope.actualList.ID_Lista}
-    $scope.actualList.Cards.push(card);
     postCard(card);
+    $scope.actualList.Cards.push(card);
+    $http.get('http://www.ploomes.com/fun/cards/').then(function(response){});
+    $http.get('http://www.ploomes.com/fun/cards/').then(function(response){});
+    $http.get('http://www.ploomes.com/fun/cards/').then(function(response){
+      $scope.actualList.Cards[$scope.actualList.Cards.length - 1].ID_Card = response.data[response.data.length - 1].ID_Card;
+    });
     toggleCardModal("none", null, null);
     updateCardOrder($scope.actualList.Cards);
   }
@@ -174,6 +196,7 @@ app.controller('MainCtrl', function($scope, $http){
   }
 
   function updateCardOrder(list){
+    if(typeof list.Cards == 'undefined') return;
     for(var i = 0; i < list.Cards.length; i++){
       if(list.Cards[i].Ordem_Card !== i){
         list.Cards[i].Ordem_Card = i;

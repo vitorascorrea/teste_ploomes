@@ -25,7 +25,7 @@
             <div class="col-md-3" ng-repeat="list in lists">
               <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                  <div class="list-title">{{list.Lista}}</div>
+                  <div class="list-title">{{list.Lista}} {{list.ID_Lista}}</div>
                   <div class="glyphicon glyphicon-circle-arrow-up list-buttons" ng-show="list.slide" ng-click="slideToggle(list)"></div>
                   <div class="glyphicon glyphicon-circle-arrow-down list-buttons" ng-show="!list.slide" ng-click="slideToggle(list)"></div>
                   <div class="glyphicon glyphicon-remove-sign list-buttons" ng-click="toggleListModal('remove', list.ID_Lista)"></div>
@@ -39,7 +39,7 @@
                         <div class="card-block">
                           <div class="glyphicon glyphicon-remove-sign card-button" ng-click="toggleCardModal('remove', list.ID_Lista, card.ID_Card)"></div>
                           <div class="glyphicon glyphicon-pencil card-button" ng-click="toggleCardModal('edit', list.ID_Lista, card.ID_Card)"></div>
-                            <h4 class="card-title">{{card.Card}}</h4>
+                            <h4 class="card-title">{{card.Card}} {{card.ID_Card}}</h4>
                         </div>
                       </div>
                     </li>
