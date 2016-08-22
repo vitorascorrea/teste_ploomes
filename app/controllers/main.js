@@ -1,7 +1,8 @@
 app.controller('MainCtrl', function($scope, $http){
   //Lists array
   $scope.lists = [];
-
+  //Hide content until loadData() finishes
+  $scope.loading = true;
   //Load data from API
   function loadData(){
     $http.get("http://www.ploomes.com/fun/listas").then(function(response) {
@@ -19,7 +20,7 @@ app.controller('MainCtrl', function($scope, $http){
                                 });
         }
     });
-
+    $scope.loading = false;
   }
   //Api Interaction
   function postList(list){

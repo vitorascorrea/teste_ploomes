@@ -19,10 +19,7 @@
     </nav>
 
     <!-- Main Section -->
-    <div class="container" ng-init="loadData()">
-
-      <h2 ng-show="lists.length == 0" class="text-center no-list">Nenhuma lista criada.<br> Clique no botão <span class="glyphicon glyphicon-plus-sign" style="color: #ffcf00;"></span> abaixo para adicionar uma nova lista!</h2>
-
+    <div class="container" ng-init="loadData()" ng-hide="loading">
       <div class="row">
         <div class="col-md-12">
           <div class="row">
@@ -52,9 +49,11 @@
               </div>
             </div>
           </div>
-
-      <div class="hovering-add-list">
-        <div class="glyphicon glyphicon-plus-sign" ng-click="toggleListModal('insert', -1)"></div>
+          <h2 ng-show="lists.length == 0" class="text-center no-list">Nenhuma lista criada.<br> Clique no botão <span class="glyphicon glyphicon-plus-sign" style="color: #ffcf00;"></span> abaixo para adicionar uma nova lista!</h2>
+          <div class="hovering-add-list">
+            <div class="glyphicon glyphicon-plus-sign" ng-click="toggleListModal('insert', -1)"></div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- /Main Section -->
