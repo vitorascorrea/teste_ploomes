@@ -2,8 +2,8 @@ app.controller('MainCtrl', function($scope, $http){
   //Lists array
   $scope.lists = [];
 
+  //Load data from API
   function loadData(){
-    //Load data from API
     $http.get("http://www.ploomes.com/fun/listas").then(function(response) {
         for(var x = 0; x < response.data.length; x++){
           list = {"ID_Lista": response.data[x].ID_Lista, "Lista": response.data[x].Lista, "Ordem_Lista": response.data[x].Ordem_Lista, "Cards": [], "slide": true};

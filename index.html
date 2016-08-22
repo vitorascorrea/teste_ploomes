@@ -59,6 +59,7 @@
 
     <modal-dialog show='listModal' width='350px'>
       <div ng-show="insertListModal" class="list-modal">
+        <h4 class="text-center">Criar nova lista</h4>
         <form role="form" ng-submit="createList(list)">
           <div class="form-group">
             <label for="cardTitle">Título da Lista</label>
@@ -68,6 +69,7 @@
         </form>
       </div>
       <div ng-show="editListModal" class="list-modal">
+        <h4 class="text-center">Editar lista</h4>
         <form role="form" ng-submit="editList(copyList)">
           <div class="form-group">
             <label for="cardTitle">Título da Lista</label>
@@ -86,6 +88,7 @@
 
     <modal-dialog show="cardModal" width="350px">
       <div ng-show="insertCardModal" class="card-modal" style="background-color: {{card.Cor_Card}};">
+        <h4 class="text-center">Criar novo card</h4>
         <form role="form" ng-submit="createCard(card)">
           <div class="form-group">
             <label for="cardTitle">Texto do Card</label>
@@ -99,6 +102,7 @@
         </form>
       </div>
       <div ng-show="editCardModal" class="card-modal" style="background-color: {{cardCopy.Cor_Card}};">
+        <h4 class="text-center">Editar card</h4>
         <form role="form" ng-submit="editCard(cardCopy)">
           <div class="form-group">
             <label for="cardCopyTitle">Texto do Card</label>
