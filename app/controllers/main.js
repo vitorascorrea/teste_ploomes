@@ -76,7 +76,7 @@ app.controller('MainCtrl', function($scope, $http){
       $scope.removeListModal = false;
       $scope.insertListModal = false;
       $scope.editListModal = true;
-      $scope.listCopy = angular.copy($scope.actualList);
+      $scope.copyList = angular.copy($scope.actualList);
     } else{
       $scope.insertListModal = false;
       $scope.removeListModal = false;
